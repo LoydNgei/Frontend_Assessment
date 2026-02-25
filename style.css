@@ -1,0 +1,53 @@
+/* ============================================================
+   FrontFund Management — Custom Stylesheet
+   Naming convention: BEM (Block__Element--Modifier)
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   1. Design Tokens (CSS Custom Properties)
+   ---------------------------------------------------------- */
+:root {
+  --color-bg-dark: #12121f;
+  --color-bg-card: #1c1c30;
+  --color-bg-card-alt: #22223a;
+  --color-accent-gold: #c9a227;
+  --color-accent-gold-light: #e8c14a;
+  --color-accent-yellow: #f5c842;
+  --color-text-primary: #f0f0f0;
+  --color-text-secondary: #a0a0b8;
+  --color-text-dark: #1a1a2e;
+  --color-foundation: #b8942a;
+  --color-economy: #2d6187;
+  --color-economy-dark: #1e4a63;
+  --color-success: #2ecc71;
+  --color-error: #e74c3c;
+
+  --font-family-base: "Outfit", system-ui, -apple-system, sans-serif;
+  --border-radius-sm: 8px;
+  --border-radius-md: 14px;
+  --border-radius-lg: 20px;
+  --transition-smooth: 0.3s ease;
+}
+
+/* ----------------------------------------------------------
+   2. Base & Reset
+   ---------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
