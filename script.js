@@ -1,13 +1,3 @@
-/**
- * FrontFund Management — Main Script
- *
- * Features:
- *  1. Mobile navigation menu toggle
- *  2. Membership description toggle (Foundation & Economy)
- *  3. Join modal — membership label population
- *  4. Join modal — form validation
- */
-
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,122 +7,89 @@ document.addEventListener('DOMContentLoaded', () => {
     initFormValidation();
 });
 
-/* ============================================================
-   1. MOBILE MENU TOGGLE
-   ============================================================ */
+// ── 1. MOBILE MENU TOGGLE ──────────────────────────────────────
 function initMobileMenu() {
-    const menuBtn = document.getElementById('menuToggleBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('menuToggleBtn');
+    const menu = document.getElementById('mobileMenu');
+    const icon = document.getElementById('menuIcon');
 
-    if (!menuBtn || !mobileMenu) return;
+    if (!btn || !menu) return;
 
-    menuBtn.addEventListener('click', () => {
-        const isOpen = !mobileMenu.hidden;
-        mobileMenu.hidden = isOpen;
-        menuBtn.setAttribute('aria-expanded', String(!isOpen));
-
-        // Swap icon between list (hamburger) and X
-        const icon = menuBtn.querySelector('i');
-        if (icon) {
-            icon.className = isOpen ? 'bi bi-list' : 'bi bi-x-lg';
-        }
+    btn.addEventListener('click', () => {
+        const isOpen = !menu.hidden;
+        menu.hidden = isOpen;
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        if (icon) icon.className = isOpen ? 'bi bi-list' : 'bi bi-x-lg';
     });
 
-    // Close menu when a link inside it is clicked
-    mobileMenu.querySelectorAll('a').forEach((link) => {
+    // Close when any link inside the menu is clicked
+    menu.querySelectorAll('a').forEach((link) => {
         link.addEventListener('click', () => {
-            mobileMenu.hidden = true;
-            menuBtn.setAttribute('aria-expanded', 'false');
-            const icon = menuBtn.querySelector('i');
+            menu.hidden = true;
+            btn.setAttribute('aria-expanded', 'false');
             if (icon) icon.className = 'bi bi-list';
         });
     });
 }
 
-/* ============================================================
-   2. MEMBERSHIP DESCRIPTION TOGGLE
-   ============================================================ */
+// ── 2. MEMBERSHIP ACCORDION TOGGLES ────────────────────────────
 function initMembershipToggles() {
-    const toggleConfigs = [
+    const toggles = [
         { btnId: 'foundationToggleBtn', descId: 'foundation-description' },
         { btnId: 'economyToggleBtn', descId: 'economy-description' },
     ];
 
-    toggleConfigs.forEach(({ btnId, descId }) => {
+    toggles.forEach(({ btnId, descId }) => {
         const btn = document.getElementById(btnId);
         const desc = document.getElementById(descId);
 
         if (!btn || !desc) return;
 
+        // Open by default
+        btn.setAttribute('aria-expanded', 'true');
+        desc.style.maxHeight = desc.scrollHeight + 'px';
+        const chevron = btn.querySelector('.membership-card__chevron');
+        if (chevron) chevron.classList.add('membership-card__chevron--up');
+
         btn.addEventListener('click', () => {
             const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-
-            // Toggle aria attribute
             btn.setAttribute('aria-expanded', String(!isExpanded));
 
-            // Animate max-height for smooth reveal
             if (isExpanded) {
-                desc.style.maxHeight = '0';
-                desc.classList.remove('membership-card__description--open');
-            } else {
-                // Set maxHeight to scrollHeight so the transition plays correctly
                 desc.style.maxHeight = desc.scrollHeight + 'px';
-                desc.classList.add('membership-card__description--open');
+                desc.offsetHeight; // force reflow
+                desc.style.maxHeight = '0';
+            } else {
+                desc.style.maxHeight = desc.scrollHeight + 'px';
             }
 
-            // Rotate chevron icon
-            const chevron = btn.querySelector('.membership-card__chevron');
-            if (chevron) {
-                chevron.classList.toggle('membership-card__chevron--up', !isExpanded);
-            }
+            if (chevron) chevron.classList.toggle('membership-card__chevron--up', !isExpanded);
         });
     });
 }
 
-/* ============================================================
-   3. JOIN MODAL — POPULATE MEMBERSHIP LABEL
-   ============================================================ */
+// ── 3. JOIN MODAL — reset state when closed ────────────────────
 function initJoinModal() {
-    const joinModal = document.getElementById('joinModal');
-    const subtitle = document.getElementById('joinModalSubtitle');
-    const modalTitle = document.getElementById('joinModalLabel');
+    const modal = document.getElementById('joinModal');
+    if (!modal) return;
 
-    if (!joinModal) return;
-
-    joinModal.addEventListener('show.bs.modal', (event) => {
-        // The button that triggered the modal
-        const trigger = event.relatedTarget;
-        const membershipType = trigger?.dataset?.membership;
-
-        if (membershipType && subtitle) {
-            subtitle.textContent = `You're signing up for the ${membershipType} Membership. Start your financial adventure today!`;
-        }
-        if (membershipType && modalTitle) {
-            modalTitle.textContent = `Join ${membershipType} Membership`;
-        }
-    });
-
-    // Reset form when modal closes
-    joinModal.addEventListener('hidden.bs.modal', () => {
+    modal.addEventListener('hidden.bs.modal', () => {
         const form = document.getElementById('joinForm');
-        if (form) {
-            form.reset();
-            clearFormErrors();
-        }
+        if (form) form.reset();
+        clearFormErrors();
+
+        const subtitle = document.getElementById('joinModalSubtitle');
         if (subtitle) subtitle.textContent = 'Start your financial adventure today.';
-        if (modalTitle) modalTitle.textContent = 'Join the Club';
     });
 }
 
-/* ============================================================
-   4. FORM VALIDATION
-   ============================================================ */
+// ── 4. FORM VALIDATION ─────────────────────────────────────────
 function initFormValidation() {
     const form = document.getElementById('joinForm');
-    const nameInput = document.getElementById('joinName');
-    const emailInput = document.getElementById('joinEmail');
-    const nameError = document.getElementById('nameError');
-    const emailError = document.getElementById('emailError');
+    const nameIn = document.getElementById('joinName');
+    const emailIn = document.getElementById('joinEmail');
+    const nameErr = document.getElementById('nameError');
+    const emailErr = document.getElementById('emailError');
     const feedback = document.getElementById('formFeedback');
     const submitBtn = document.getElementById('joinSubmitBtn');
 
@@ -142,81 +99,77 @@ function initFormValidation() {
         e.preventDefault();
         clearFormErrors();
 
-        const name = nameInput.value.trim();
-        const email = emailInput.value.trim();
-        let isValid = true;
+        const name = nameIn.value.trim();
+        const email = emailIn.value.trim();
+        let valid = true;
 
-        // Validate name
+        // Name check
         if (!name) {
-            showError(nameInput, nameError, 'Please enter your full name.');
-            isValid = false;
+            showError(nameIn, nameErr, 'Please enter your full name.');
+            valid = false;
         } else if (name.length < 2) {
-            showError(nameInput, nameError, 'Name must be at least 2 characters.');
-            isValid = false;
+            showError(nameIn, nameErr, 'Name must be at least 2 characters.');
+            valid = false;
         }
 
-        // Validate email
+        // Email check
         if (!email) {
-            showError(emailInput, emailError, 'Please enter your email address.');
-            isValid = false;
+            showError(emailIn, emailErr, 'Please enter your email address.');
+            valid = false;
         } else if (!isValidEmail(email)) {
-            showError(emailInput, emailError, 'Please enter a valid email address.');
-            isValid = false;
+            showError(emailIn, emailErr, 'Please enter a valid email address.');
+            valid = false;
         }
 
-        if (!isValid) return;
+        if (!valid) return;
 
-        // Simulate successful submission
+        // Simulate async submission
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing…';
+        submitBtn.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing…';
 
         setTimeout(() => {
-            showFeedback(feedback, 'success', `🎉 Welcome, ${name}! You're now on the waitlist. Check your inbox at ${email}.`);
+            showFeedback(
+                feedback,
+                'success',
+                `🎉 Welcome, ${name}! Check ${email} for a confirmation.`
+            );
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Join Now';
             form.reset();
         }, 1500);
     });
 
-    // Live validation: clear error on input
-    [nameInput, emailInput].forEach((input) => {
+    // Clear error as user types
+    [nameIn, emailIn].forEach((input) => {
         input.addEventListener('input', () => {
             input.classList.remove('join-modal__input--error');
-            const errEl = document.getElementById(input.id === 'joinName' ? 'nameError' : 'emailError');
+            const errEl = input.id === 'joinName' ? nameErr : emailErr;
             if (errEl) errEl.textContent = '';
         });
     });
 }
 
-/* --- Helpers --- */
-
-function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function showError(input, errorEl, message) {
+// ── Helpers ─────────────────────────────────────────────────────
+function showError(input, errEl, msg) {
     input.classList.add('join-modal__input--error');
-    if (errorEl) errorEl.textContent = message;
+    if (errEl) errEl.textContent = msg;
 }
 
 function clearFormErrors() {
-    ['joinName', 'joinEmail'].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.classList.remove('join-modal__input--error');
-    });
-    ['nameError', 'emailError'].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = '';
-    });
-    const feedback = document.getElementById('formFeedback');
-    if (feedback) {
-        feedback.textContent = '';
-        feedback.className = 'join-modal__feedback';
-    }
+    document.querySelectorAll('.join-modal__input--error').forEach((el) =>
+        el.classList.remove('join-modal__input--error')
+    );
+    document.querySelectorAll('.join-modal__error').forEach((el) => (el.textContent = ''));
+    const fb = document.getElementById('formFeedback');
+    if (fb) fb.innerHTML = '';
 }
 
-function showFeedback(el, type, message) {
+function showFeedback(el, type, msg) {
     if (!el) return;
-    el.textContent = message;
-    el.className = `join-modal__feedback join-modal__feedback--${type}`;
+    el.innerHTML = `<div class="alert alert-${type === 'success' ? 'success' : 'danger'} py-2 mt-2 mb-0" role="alert">${msg}</div>`;
+}
+
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }

@@ -1,37 +1,11 @@
-/* ============================================================
-   FrontFund Management — Custom Stylesheet
-   Convention: BEM (Block__Element--Modifier)
-   ============================================================ */
+/*
+  FrontFund Management — Stylesheet
+  Convention: BEM (Block__Element--Modifier)
+*/
 
-/* ----------------------------------------------------------
-   1. Design Tokens (CSS Custom Properties)
-   ---------------------------------------------------------- */
-:root {
-    --color-bg-dark: #12121f;
-    --color-bg-card: #1c1c30;
-    --color-bg-card-alt: #22223a;
-    --color-accent-gold: #c9a227;
-    --color-accent-gold-light: #e8c14a;
-    --color-accent-yellow: #f5c842;
-    --color-text-primary: #f0f0f0;
-    --color-text-secondary: #a0a0b8;
-    --color-text-dark: #1a1a2e;
-    --color-foundation: #b8942a;
-    --color-economy: #1e6388;
-    --color-economy-header: #174f6d;
-    --color-success: #2ecc71;
-    --color-error: #e74c3c;
-
-    --font-family-base: "Outfit", system-ui, -apple-system, sans-serif;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-    --transition: 0.3s ease;
-}
-
-/* ----------------------------------------------------------
-   2. Base & Reset
-   ---------------------------------------------------------- */
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
 *,
 *::before,
 *::after {
@@ -45,9 +19,9 @@ html {
 }
 
 body {
-    font-family: var(--font-family-base);
-    background-color: var(--color-bg-dark);
-    color: var(--color-text-primary);
+    font-family: "Outfit", system-ui, -apple-system, sans-serif;
+    background-color: #1a1a2e;
+    color: #f0f0f0;
     min-height: 100vh;
     line-height: 1.6;
 }
@@ -57,16 +31,15 @@ img {
     display: block;
 }
 
-/* Constrain app width (phone-first) */
 .container {
     max-width: 480px;
 }
 
-/* ----------------------------------------------------------
-   3. SITE HEADER
-   ---------------------------------------------------------- */
+/* ------------------------------------------------------------------
+   SITE HEADER — dark, minimal
+   ------------------------------------------------------------------ */
 .site-header {
-    background-color: var(--color-bg-card);
+    background-color: #1c1c30;
     padding: 0.75rem 0;
     position: sticky;
     top: 0;
@@ -74,236 +47,340 @@ img {
     border-bottom: 1px solid rgba(201, 162, 39, 0.2);
 }
 
-.site-header__inner {
-    gap: 0.5rem;
-}
-
 .site-header__brand {
     font-size: 1.2rem;
     font-weight: 800;
-    color: var(--color-accent-gold);
+    color: #c9a227;
     letter-spacing: 0.05em;
 }
 
+/* Hamburger menu button */
 .site-header__menu-btn {
-    color: var(--color-text-primary);
     background: transparent;
     border: none;
-    font-size: 1.6rem;
+    color: #f0f0f0;
+    font-size: 1.5rem;
     line-height: 1;
     padding: 0.2rem 0.4rem;
-    border-radius: var(--radius-sm);
-    transition: background var(--transition), color var(--transition);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .site-header__menu-btn:hover,
 .site-header__menu-btn:focus-visible {
     background: rgba(201, 162, 39, 0.15);
-    color: var(--color-accent-gold);
+    color: #c9a227;
     outline: none;
 }
 
-/* Mobile dropdown */
-.site-header__mobile-menu {
-    background-color: var(--color-bg-card-alt);
-    border-radius: var(--radius-md);
-    margin-top: 0.5rem;
+/* Mobile dropdown nav */
+.mobile-menu {
+    background: #22223a;
+    border-top: 1px solid rgba(201, 162, 39, 0.15);
     padding: 0.5rem 0;
-    border: 1px solid rgba(201, 162, 39, 0.2);
+    animation: slideDown 0.3s ease;
 }
 
-.site-header__menu-list {
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mobile-menu__link {
+    display: block;
+    padding: 0.6rem 0;
+    color: #d0d0e0;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.mobile-menu__link:last-child {
+    border-bottom: none;
+}
+
+.mobile-menu__link:hover {
+    color: #e8c14a;
+    padding-left: 0.5rem;
+}
+
+/* ------------------------------------------------------------------
+   JOIN MODAL — dark themed
+   ------------------------------------------------------------------ */
+.join-modal {
+    background: #22223a;
+    border: 1px solid rgba(201, 162, 39, 0.3);
+    border-radius: 16px;
+    color: #f0f0f0;
+}
+
+.join-modal__header {
+    padding: 1.25rem 1.5rem 0.75rem;
+    border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+    position: relative;
+}
+
+.join-modal__header .btn-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.join-modal__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e8c14a;
     margin: 0;
 }
 
-.site-header__menu-link {
+.join-modal__subtitle {
+    font-size: 0.8rem;
+    color: #a0a0b8;
+    margin: 0.25rem 0 0;
+}
+
+.join-modal__body {
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.join-modal__label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #c0c0d0;
+    margin-bottom: 0.3rem;
     display: block;
-    padding: 0.65rem 1.25rem;
-    color: var(--color-text-primary);
-    text-decoration: none;
-    font-weight: 500;
-    transition: background var(--transition), color var(--transition);
 }
 
-.site-header__menu-link:hover {
-    background: rgba(201, 162, 39, 0.12);
-    color: var(--color-accent-gold);
+.join-modal__input {
+    background: #2a2a45;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f0f0f0;
+    border-radius: 8px;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.85rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* ----------------------------------------------------------
-   4. HERO / PROFILE CARD
-   ---------------------------------------------------------- */
+.join-modal__input::placeholder {
+    color: #666680;
+}
+
+.join-modal__input:focus {
+    border-color: #c9a227;
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
+    background: #2a2a45;
+    color: #f0f0f0;
+}
+
+.join-modal__input--error {
+    border-color: #e74c3c !important;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15) !important;
+}
+
+.join-modal__error {
+    font-size: 0.72rem;
+    color: #e74c3c;
+    margin-top: 0.25rem;
+    min-height: 1rem;
+}
+
+.join-modal__submit {
+    width: 100%;
+    padding: 0.65rem;
+    background: linear-gradient(90deg, #c9a227, #b8942a);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.88rem;
+    border: none;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    transition: filter 0.3s ease, transform 0.2s ease;
+}
+
+.join-modal__submit:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.join-modal__submit:active {
+    transform: translateY(0);
+}
+
+.join-modal__submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------
+   HERO CARD
+   Dark card with a thin gold border outline around the edges.
+   Photo left, name right, subtitle below with generous gap.
+   ------------------------------------------------------------------ */
 .hero-card {
-    background: linear-gradient(160deg, #1e1e36 0%, #12121f 100%);
-    border-radius: var(--radius-lg);
+    background: #22223a;
+    border-radius: 18px;
     margin: 1.25rem 0;
     overflow: hidden;
-    border: 1px solid rgba(201, 162, 39, 0.25);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border: 2px solid #c9a227;
 }
 
-/* Gold badge strip at top */
-.hero-card__badge-strip {
-    background: linear-gradient(90deg, var(--color-accent-gold), var(--color-accent-gold-light), var(--color-accent-gold));
-    padding: 0.4rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.hero-card__star {
-    color: var(--color-text-dark);
-    font-size: 1.1rem;
+/* Thin gold accent line at top */
+.hero-card__accent-line {
+    height: 3px;
+    background: linear-gradient(90deg, #c9a227, #e8c14a, #c9a227);
 }
 
 .hero-card__body {
+    padding: 1.4rem 1.25rem 1.75rem;
+}
+
+/* Row: photo left, name right */
+.hero-card__profile {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
-    padding: 1.5rem 1.25rem 2rem;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
-/* Avatar circle */
-.hero-card__avatar-wrapper {
-    margin-bottom: 1rem;
-}
-
-.hero-card__avatar {
-    width: 88px;
-    height: 88px;
+.hero-card__avatar-img {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #3a3a6a, #22223a);
-    border: 3px solid var(--color-accent-gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 16px rgba(201, 162, 39, 0.35);
-    transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.hero-card__avatar:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 24px rgba(201, 162, 39, 0.5);
-}
-
-.hero-card__avatar-icon {
-    font-size: 3rem;
-    color: var(--color-accent-gold-light);
+    border: 3px solid #c9a227;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
 }
 
 .hero-card__name {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: var(--color-text-primary);
-    margin-bottom: 0.5rem;
+    color: #ffffff;
+    margin: 0;
 }
 
 .hero-card__subtitle {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    line-height: 1.7;
+    font-size: 0.88rem;
+    color: #b0b0cc;
+    line-height: 1.75;
+    text-align: center;
 }
 
-/* ----------------------------------------------------------
-   5. LEADERBOARD / STATS GRID
-   ---------------------------------------------------------- */
+/* ------------------------------------------------------------------
+   LEADERBOARD / STAT CARDS
+   Each card has its own unique pastel color.
+   Avatar left, name + score right. Score slightly below name.
+   ------------------------------------------------------------------ */
 .leaderboard {
     margin-bottom: 1.25rem;
 }
 
 .stat-card {
-    background-color: var(--color-bg-card);
-    border-radius: var(--radius-md);
-    padding: 0.85rem;
+    border-radius: 14px;
+    padding: 0.8rem 0.9rem;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0.6rem;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.65rem;
     height: 100%;
+    transition: transform 0.3s ease;
 }
 
 .stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    border-color: rgba(201, 162, 39, 0.3);
+    transform: translateY(-2px);
 }
 
-.stat-card__avatar {
-    width: 48px;
-    height: 48px;
+/* Card background colours matching the screenshot */
+.stat-card--benard {
+    background-color: #F5C8A8;
+}
+
+/* warm peach/salmon  */
+.stat-card--kigsmall {
+    background-color: #B8E0B8;
+}
+
+/* sage / muted green */
+.stat-card--caroline-a {
+    background-color: #E8C0D0;
+}
+
+/* dusty rose/pink    */
+.stat-card--caroline-b {
+    background-color: #C8D8A0;
+}
+
+/* olive green / khaki */
+
+.stat-card__avatar-img {
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 2px;
+}
+
+.stat-card__info {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: #fff;
-}
-
-/* Avatar colour variants */
-.stat-card__avatar--blue {
-    background: linear-gradient(135deg, #1e6388, #0d3f5a);
-}
-
-.stat-card__avatar--green {
-    background: linear-gradient(135deg, #2d8a55, #1b5c38);
-}
-
-.stat-card__avatar--purple {
-    background: linear-gradient(135deg, #6a3aaa, #3e1e72);
-}
-
-.stat-card__avatar--orange {
-    background: linear-gradient(135deg, #c0621e, #7a3a0a);
+    flex-direction: column;
 }
 
 .stat-card__name {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--color-text-secondary);
+    font-size: 0.71rem;
+    font-weight: 600;
+    color: #333;
     line-height: 1.3;
     margin: 0;
 }
 
 .stat-card__score {
-    font-size: 1.65rem;
+    font-size: 1.55rem;
     font-weight: 800;
-    color: var(--color-accent-gold);
-    margin: 0;
+    color: #1a1a2e;
+    margin: 6px 0 0;
     line-height: 1;
 }
 
-/* ----------------------------------------------------------
-   6. MOTIVATION BANNER
-   ---------------------------------------------------------- */
+/* ------------------------------------------------------------------
+   MOTIVATION BANNER — dark card with gold header
+   ------------------------------------------------------------------ */
 .motivation-banner {
-    background: linear-gradient(160deg, var(--color-bg-card) 0%, var(--color-bg-card-alt) 100%);
-    border-radius: var(--radius-md);
+    background: #22223a;
+    border-radius: 14px;
     margin-bottom: 1.25rem;
     overflow: hidden;
-    border: 1px solid rgba(201, 162, 39, 0.2);
+    border: 1px solid rgba(201, 162, 39, 0.25);
 }
 
 .motivation-banner__header {
-    background: linear-gradient(90deg, #2a2a10 0%, #1e1e0a 100%);
+    background: linear-gradient(90deg, rgba(201, 162, 39, 0.2), rgba(201, 162, 39, 0.08));
     padding: 1rem 1.25rem 0.75rem;
-    border-bottom: 2px solid rgba(201, 162, 39, 0.4);
+    border-bottom: 2px solid rgba(201, 162, 39, 0.3);
 }
 
 .motivation-banner__title {
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: var(--color-accent-yellow);
+    color: #e8c14a;
     margin-bottom: 0.25rem;
 }
 
 .motivation-banner__highlight {
     font-size: 0.78rem;
-    color: var(--color-accent-gold-light);
+    color: #c9a227;
     margin: 0;
     line-height: 1.5;
 }
@@ -314,71 +391,57 @@ img {
 
 .motivation-banner__text {
     font-size: 0.82rem;
-    color: var(--color-text-secondary);
+    color: #a0a0b8;
     margin: 0;
     line-height: 1.6;
 }
 
-/* ----------------------------------------------------------
-   7. MEMBERSHIP CARDS
-   ---------------------------------------------------------- */
+/* ------------------------------------------------------------------
+   MEMBERSHIP CARDS
+   Colored header bar, white description area when expanded.
+   ------------------------------------------------------------------ */
 .memberships {
     margin-bottom: 2rem;
 }
 
-/* Shared card */
 .membership-card {
-    border-radius: var(--radius-md);
+    border-radius: 14px;
     overflow: hidden;
     margin-bottom: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    transition: box-shadow var(--transition);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
 }
 
-.membership-card:focus-within {
-    box-shadow: 0 0 0 2px var(--color-accent-gold);
-}
-
-/* ── Header (clickable bar) ── */
 .membership-card__header {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
-    padding: 0.85rem 1.1rem;
+    padding: 0.9rem 1.1rem;
     border: none;
     cursor: pointer;
     text-align: left;
-    font-family: var(--font-family-base);
-    font-size: 0.82rem;
+    font-family: "Outfit", sans-serif;
+    font-size: 0.83rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    transition: filter var(--transition), transform var(--transition);
+    color: #fff;
+    transition: filter 0.3s ease;
 }
 
 .membership-card__header:hover {
-    filter: brightness(1.12);
+    filter: brightness(1.08);
 }
 
-.membership-card__header:active {
-    transform: scale(0.99);
-}
-
-/* Foundation colours */
 .membership-card--foundation .membership-card__header {
-    background: linear-gradient(90deg, var(--color-foundation) 0%, #a07820 100%);
-    color: #fff;
+    background: linear-gradient(90deg, #b8942a, #a07820);
 }
 
-/* Economy colours */
 .membership-card--economy .membership-card__header {
-    background: linear-gradient(90deg, var(--color-economy-header) 0%, var(--color-economy) 100%);
-    color: #fff;
+    background: linear-gradient(90deg, #174f6d, #1e6388);
 }
 
-/* ── Chevron icon ── */
 .membership-card__chevron {
     font-size: 1rem;
     transition: transform 0.35s ease;
@@ -389,275 +452,142 @@ img {
     transform: rotate(180deg);
 }
 
-/* ── Collapsible description ── */
 .membership-card__description {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease;
+    transition: max-height 0.45s ease;
 }
 
 .membership-card__description-inner {
     padding: 1rem 1.1rem 1.1rem;
     font-size: 0.82rem;
     line-height: 1.65;
-    color: var(--color-text-secondary);
+    color: #333;
+    background-color: #ffffff;
 }
 
-/* Foundation description background */
-.membership-card--foundation .membership-card__description-inner {
-    background-color: #1e1a0e;
-}
-
-/* Economy description background */
-.membership-card--economy .membership-card__description-inner {
-    background-color: #0d1a22;
-}
-
-/* CTA button inside description */
-.membership-card__cta-btn {
+/* ------------------------------------------------------------------
+   DETAILS LINK — yellow/gold background strip matching the screenshot
+   ------------------------------------------------------------------ */
+.memberships__details-link-wrapper {
+    background-color: #c9a227;
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
     display: block;
-    width: 100%;
-    margin-top: 0.85rem;
-    padding: 0.6rem 1rem;
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: var(--font-family-base);
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: filter var(--transition), transform var(--transition);
+    text-align: center;
 }
 
-.membership-card--foundation .membership-card__cta-btn {
-    background: linear-gradient(90deg, var(--color-accent-gold), var(--color-accent-gold-light));
-    color: var(--color-text-dark);
-}
-
-.membership-card--economy .membership-card__cta-btn {
-    background: linear-gradient(90deg, var(--color-economy), #2380b0);
-    color: #fff;
-}
-
-.membership-card__cta-btn:hover {
-    filter: brightness(1.1);
-    transform: translateY(-1px);
-}
-
-.membership-card__cta-btn:active {
-    transform: translateY(0);
-}
-
-/* ── Details link ── */
 .memberships__details-link {
-    display: inline-block;
     font-size: 0.78rem;
-    color: var(--color-accent-gold-light);
+    font-style: italic;
+    color: #1a1a2e;
     text-decoration: underline;
     text-underline-offset: 3px;
-    transition: color var(--transition), letter-spacing var(--transition);
 }
 
 .memberships__details-link:hover {
-    color: var(--color-accent-yellow);
-    letter-spacing: 0.02em;
+    color: #000;
 }
 
-/* ----------------------------------------------------------
-   8. SITE FOOTER
-   ---------------------------------------------------------- */
+/* ------------------------------------------------------------------
+   WHATSAPP FAB
+   ------------------------------------------------------------------ */
+.whatsapp-fab {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 52px;
+    height: 52px;
+    background: #25d366;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.45);
+    z-index: 200;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-fab:hover {
+    transform: scale(1.12) translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.6);
+    color: #fff;
+}
+
+.whatsapp-fab:active {
+    transform: scale(0.97);
+}
+
+.whatsapp-fab::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid #25d366;
+    animation: wa-pulse 2s ease-out infinite;
+}
+
+@keyframes wa-pulse {
+    0% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.75);
+    }
+}
+
+/* ------------------------------------------------------------------
+   FOOTER — yellow/gold background strip, matching details link
+   ------------------------------------------------------------------ */
 .site-footer {
-    background-color: var(--color-bg-card);
-    border-top: 1px solid rgba(201, 162, 39, 0.2);
-    padding: 1rem 0;
+    background-color: #c9a227;
+    padding: 0.75rem 0;
     text-align: center;
 }
 
 .site-footer__text {
     font-size: 0.72rem;
-    color: var(--color-text-secondary);
+    color: #1a1a2e;
     margin: 0;
+    font-weight: 500;
 }
 
-/* ----------------------------------------------------------
-   9. JOIN MODAL
-   ---------------------------------------------------------- */
-.join-modal {
-    background-color: var(--color-bg-card);
-    border: 1px solid rgba(201, 162, 39, 0.25);
-    border-radius: var(--radius-lg) !important;
-    color: var(--color-text-primary);
-}
-
-.join-modal__header {
-    background: linear-gradient(90deg, var(--color-foundation), var(--color-accent-gold));
-    border-bottom: none;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
-    padding: 1.1rem 1.4rem;
-}
-
-.join-modal__title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
-}
-
-.join-modal__body {
-    padding: 1.4rem;
-}
-
-.join-modal__subtitle {
-    font-size: 0.83rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 1.1rem;
-    line-height: 1.55;
-}
-
-.join-modal__label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-text-secondary);
-    margin-bottom: 0.35rem;
-}
-
-.join-modal__input {
-    background-color: var(--color-bg-card-alt);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: var(--color-text-primary);
-    border-radius: var(--radius-sm);
-    font-family: var(--font-family-base);
-    font-size: 0.85rem;
-    transition: border-color var(--transition), box-shadow var(--transition);
-}
-
-.join-modal__input::placeholder {
-    color: var(--color-text-secondary);
-}
-
-.join-modal__input:focus {
-    background-color: var(--color-bg-card-alt);
-    border-color: var(--color-accent-gold);
-    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
-    color: var(--color-text-primary);
-    outline: none;
-}
-
-.join-modal__input--error {
-    border-color: var(--color-error) !important;
-    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;
-}
-
-.join-modal__error {
-    font-size: 0.75rem;
-    color: var(--color-error);
-    margin-top: 0.3rem;
-    min-height: 1em;
-}
-
-.join-modal__feedback {
-    font-size: 0.82rem;
-    min-height: 1.2em;
-    margin-bottom: 0.75rem;
-    border-radius: var(--radius-sm);
-    padding: 0;
-    transition: all var(--transition);
-}
-
-.join-modal__feedback--success {
-    background: rgba(46, 204, 113, 0.12);
-    color: var(--color-success);
-    border: 1px solid rgba(46, 204, 113, 0.3);
-    padding: 0.6rem 0.85rem;
-}
-
-.join-modal__feedback--error {
-    background: rgba(231, 76, 60, 0.12);
-    color: var(--color-error);
-    border: 1px solid rgba(231, 76, 60, 0.3);
-    padding: 0.6rem 0.85rem;
-}
-
-.join-modal__submit-btn {
-    background: linear-gradient(90deg, var(--color-accent-gold), var(--color-accent-gold-light));
-    color: var(--color-text-dark);
-    font-family: var(--font-family-base);
-    font-size: 0.9rem;
-    font-weight: 700;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 0.75rem;
-    transition: filter var(--transition), transform var(--transition);
-}
-
-.join-modal__submit-btn:hover:not(:disabled) {
-    filter: brightness(1.1);
-    transform: translateY(-1px);
-}
-
-.join-modal__submit-btn:active:not(:disabled) {
-    transform: translateY(0);
-}
-
-.join-modal__submit-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-/* ----------------------------------------------------------
-   10. RESPONSIVE BREAKPOINTS
-   ---------------------------------------------------------- */
-
-/* ─── Small phones (< 375px) ─── */
+/* ------------------------------------------------------------------
+   RESPONSIVE
+   ------------------------------------------------------------------ */
 @media (max-width: 374px) {
-    .hero-card__name {
-        font-size: 1.3rem;
-    }
-
     .stat-card__score {
-        font-size: 1.4rem;
+        font-size: 1.25rem;
     }
 
     .stat-card__name {
-        font-size: 0.7rem;
+        font-size: 0.64rem;
+    }
+
+    .hero-card__name {
+        font-size: 1.2rem;
     }
 }
 
-/* ─── Tablet and up (≥ 768px) ─── */
 @media (min-width: 768px) {
     .container {
         max-width: 540px;
     }
 
-    .hero-card__avatar {
-        width: 100px;
-        height: 100px;
-    }
-
-    .hero-card__avatar-icon {
-        font-size: 3.5rem;
-    }
-
-    .hero-card__name {
-        font-size: 1.75rem;
-    }
-
-    .stat-card__score {
-        font-size: 1.85rem;
-    }
-
-    .motivation-banner__title {
-        font-size: 1.15rem;
+    .hero-card__avatar-img {
+        width: 90px;
+        height: 90px;
     }
 }
 
-/* ─── Desktop (≥ 1024px) — wider card arrangement ─── */
 @media (min-width: 1024px) {
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        padding-top: 2rem;
-    }
-
     .container {
         max-width: 500px;
     }
@@ -665,14 +595,8 @@ img {
     .site-header {
         position: static;
     }
-
-    /* Wrap everything in a phone-like card on desktop */
-    #main-content .container {
-        background-color: var(--color-bg-dark);
-    }
 }
 
-/* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {
 
     *,
