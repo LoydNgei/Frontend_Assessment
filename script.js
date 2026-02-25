@@ -57,7 +57,7 @@ function initMembershipToggles() {
 
             if (isExpanded) {
                 desc.style.maxHeight = desc.scrollHeight + 'px';
-                desc.offsetHeight; // force reflow
+                desc.offsetHeight;
                 desc.style.maxHeight = '0';
             } else {
                 desc.style.maxHeight = desc.scrollHeight + 'px';
@@ -132,7 +132,7 @@ function initFormValidation() {
             showFeedback(
                 feedback,
                 'success',
-                `🎉 Welcome, ${name}! Check ${email} for a confirmation.`
+                `Welcome, ${name}! Check ${email} for a confirmation.`
             );
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Join Now';
